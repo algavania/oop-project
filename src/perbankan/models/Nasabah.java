@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package perbankan;
+package perbankan.models;
 
-import praktikum_6.*;
 
 /**
  *
@@ -15,6 +14,7 @@ public class Nasabah {
     private String namaAwal;
     private String namaAkhir;
     private Tabungan tabungan;
+    private User user;
 
     public Nasabah(String namaAwal, String namaAkhir) {
         this.namaAwal = namaAwal;
@@ -35,6 +35,14 @@ public class Nasabah {
 
     public void setTabungan(Tabungan tabungan) {
         this.tabungan = tabungan;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setNamaAwal(String namaAwal) {

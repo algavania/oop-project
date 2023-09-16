@@ -1,8 +1,11 @@
-package perbankan;
+package perbankan.ui.nasabah;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import perbankan.models.Nasabah;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class NasabahListTableModel extends AbstractTableModel {
 
     private List<Nasabah> nasabahList;
-    private final String[] columnNames = {"No", "Nama Awal", "Nama Akhir"};
+    private final String[] columnNames = {"No", "Nama Awal", "Nama Akhir", "Saldo"};
 
     public NasabahListTableModel(List<Nasabah> nasabahList) {
         this.nasabahList = nasabahList;
@@ -39,6 +42,10 @@ public class NasabahListTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Nasabah data = nasabahList.get(rowIndex);
+        NumberFormat format = NumberFormat.getInstance();
+        format.setCurrency(Currency.getInstance("IDR"));
+        format.setMaximumFractionDigits(0);
+
         return switch (columnIndex) {
             case 0 ->
                 rowIndex + 1;
@@ -46,6 +53,8 @@ public class NasabahListTableModel extends AbstractTableModel {
                 data.getNamaAwal();
             case 2 ->
                 data.getNamaAkhir();
+            case 3 ->
+                "Rp" + format.format(data.getTabungan().getSaldo());
             default ->
                 null;
         };
@@ -72,10 +81,4 @@ public class NasabahListTableModel extends AbstractTableModel {
         nasabahList.remove(index);
         fireTableRowsDeleted(nasabahList.size() - 1, nasabahList.size() - 1);
     }
-
-    public void removeNasabah(int rowIndex) {
-        nasabahList.remove(rowIndex);
-        fireTableRowsDeleted(rowIndex, rowIndex);
-    }
-
 }

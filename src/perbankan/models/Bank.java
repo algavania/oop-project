@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package perbankan;
+package perbankan.models;
 
-import praktikum_6.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,33 +20,54 @@ public class Bank {
     }
 
     public void tambahNasabah(String namaAwal, String namaAkhir) {
+        Nasabah data = new Nasabah(namaAwal, namaAkhir);
+        data.setTabungan(new Tabungan(0));
         if (nasabah == null) {
             nasabah = new ArrayList();
         }
-        nasabah.add(new Nasabah(namaAwal, namaAkhir));
+        nasabah.add(data);
         jumlahNasabah++;
     }
-    
+
     public void editNasabah(int index, String namaAwal, String namaAkhir) {
         Nasabah data = nasabah.get(index);
         data.setNamaAwal(namaAwal);
         data.setNamaAkhir(namaAkhir);
         nasabah.set(index, data);
     }
-    
+
+    public void tambahNasabah(String namaAwal, String namaAkhir, User user) {
+        Nasabah data = new Nasabah(namaAwal, namaAkhir);
+        data.setUser(user);
+        data.setTabungan(new Tabungan(0));
+        if (nasabah == null) {
+            nasabah = new ArrayList();
+        }
+        nasabah.add(data);
+        jumlahNasabah++;
+    }
+
+    public void editNasabah(int index, String namaAwal, String namaAkhir, User user) {
+        Nasabah data = nasabah.get(index);
+        data.setUser(user);
+        data.setNamaAwal(namaAwal);
+        data.setNamaAkhir(namaAkhir);
+        nasabah.set(index, data);
+    }
+
     public void deleteNasabah(int index) {
         nasabah.remove(index);
     }
-    
+
     public int getJumlahNasabah() {
         return nasabah.size();
     }
-    
+
     public Nasabah getNasabah(int indeks) {
         return nasabah.get(indeks);
     }
 
-    public List<perbankan.Nasabah> getNasabah() {
+    public List<Nasabah> getNasabah() {
         return nasabah;
     }
 }

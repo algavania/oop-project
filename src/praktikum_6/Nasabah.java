@@ -4,6 +4,8 @@
  */
 package praktikum_6;
 
+import perbankan.models.Tabungan;
+
 /**
  *
  * @author MSI

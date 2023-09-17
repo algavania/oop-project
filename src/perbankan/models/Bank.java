@@ -19,8 +19,7 @@ public class Bank {
     public Bank() {
     }
 
-    public void tambahNasabah(String namaAwal, String namaAkhir) {
-        Nasabah data = new Nasabah(namaAwal, namaAkhir);
+    public void tambahNasabah(Nasabah data) {
         data.setTabungan(new Tabungan(0));
         if (nasabah == null) {
             nasabah = new ArrayList();
@@ -36,9 +35,8 @@ public class Bank {
         nasabah.set(index, data);
     }
 
-    public void tambahNasabah(String namaAwal, String namaAkhir, User user) {
+    public void tambahNasabah(String namaAwal, String namaAkhir) {
         Nasabah data = new Nasabah(namaAwal, namaAkhir);
-        data.setUser(user);
         data.setTabungan(new Tabungan(0));
         if (nasabah == null) {
             nasabah = new ArrayList();

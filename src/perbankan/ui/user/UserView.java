@@ -26,6 +26,7 @@ public class UserView extends javax.swing.JPanel {
     private boolean isSelectionUserEvent = false;
     private final AuthRepository repository = new AuthRepository();
     private final List<User> users;
+    private final User currentUser;
     String roles[] = {"User", "Pegawai"};
 
     /**
@@ -37,7 +38,7 @@ public class UserView extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         users = DatabaseService.getUsers();
         tableModel = new UserListTableModel(users);
-        User currentUser = DatabaseService.getCurrentUser();
+        currentUser = DatabaseService.getCurrentUser();
         initComponents();
 
         cbRole.removeAllItems();
@@ -269,10 +270,15 @@ public class UserView extends javax.swing.JPanel {
 
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
         int index = listTable.getSelectedRow();
-        repository.deleteUser(index);
-        tableModel.deleteUser(index);
-        isEdit = false;
-        setEditingMode();
+        User user = users.get(index);
+        if (user.getUsername().equals(currentUser.getUsername())) {
+            JOptionPane.showMessageDialog(this, "Tidak bisa menghapus akun sendiri!");
+        } else {
+            repository.deleteUser(index);
+            tableModel.deleteUser(index);
+            isEdit = false;
+            setEditingMode();
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 

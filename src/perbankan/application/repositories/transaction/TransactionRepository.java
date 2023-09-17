@@ -25,4 +25,14 @@ public class TransactionRepository implements BaseTransactionRepository {
         nasabah.getTabungan().simpanUang(amount);
     }
 
+    @Override
+    public void transfer(Nasabah sender, Nasabah receiver, int amount) throws Exception {
+        boolean status = sender.getTabungan().ambilUang(amount);
+        if (!status) {
+            throw new Exception("Saldo tidak cukup!");
+        }
+        receiver.getTabungan().simpanUang(amount);
+    }
+
+
 }

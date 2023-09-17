@@ -4,6 +4,9 @@
  */
 package perbankan.ui.transaksi;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import perbankan.application.repositories.transaction.TransactionRepository;
 import perbankan.application.services.DatabaseService;
 import java.text.NumberFormat;
@@ -48,8 +51,15 @@ public class TransaksiView extends javax.swing.JPanel {
         format = NumberFormat.getInstance();
         format.setMaximumFractionDigits(0);
         format.setCurrency(Currency.getInstance("IDR"));
+        txtAccountNumber.setText(nasabah.getNoRekening());
         txtFullName.setText(nasabah.getNamaAwal() + " " + nasabah.getNamaAkhir());
         updateBalanceUi();
+    }
+
+    private int getAmountValue() {
+        String defaultAmount = tfAmount.getText();
+        String amountText = defaultAmount.replaceAll("\\,", "");
+        return amountText.isBlank() ? 0 : Integer.parseInt(amountText);
     }
 
     private void updateBalanceUi() {
@@ -73,6 +83,10 @@ public class TransaksiView extends javax.swing.JPanel {
         btnWithdraw = new javax.swing.JButton();
         btnDeposit = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtAccountNumber = new javax.swing.JLabel();
+        btnCopy = new javax.swing.JButton();
+        btnWithdraw1 = new javax.swing.JButton();
 
         jLabel1.setText("Nama Lengkap");
 
@@ -115,6 +129,25 @@ public class TransaksiView extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setText("Nomor Rekening");
+
+        txtAccountNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtAccountNumber.setText("1234567891");
+
+        btnCopy.setText("Salin");
+        btnCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCopyActionPerformed(evt);
+            }
+        });
+
+        btnWithdraw1.setText("Transfer");
+        btnWithdraw1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWithdraw1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,31 +155,44 @@ public class TransaksiView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtBalance)
-                                    .addComponent(txtFullName)))
+                            .addComponent(btnBack)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(btnWithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(tfAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(tfAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtAccountNumber)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnCopy))
+                                    .addComponent(txtBalance)
+                                    .addComponent(txtFullName)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(btnBack)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addGap(124, 124, 124)
+                        .addComponent(btnWithdraw1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
+                .addComponent(btnBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtAccountNumber)
+                    .addComponent(btnCopy))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtFullName))
@@ -154,15 +200,15 @@ public class TransaksiView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBalance))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(tfAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnWithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeposit, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnBack)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(btnWithdraw1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -170,22 +216,6 @@ public class TransaksiView extends javax.swing.JPanel {
 
 // TODO add your handling code here:
     }//GEN-LAST:event_tfAmountKeyPressed
-
-    private void btnWithdrawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWithdrawActionPerformed
-        try {
-            String defaultAmount = tfAmount.getText();
-            String amountText = defaultAmount.replaceAll("\\,", "");
-            if (!amountText.isBlank()) {
-                repository.withdraw(nasabah, Integer.parseInt(amountText));
-                updateBalanceUi();
-                JOptionPane.showMessageDialog(this, "Berhasil mengambil Rp" + defaultAmount);
-                tfAmount.setText("");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnWithdrawActionPerformed
 
     private void tfAmountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAmountKeyReleased
 
@@ -214,11 +244,16 @@ public class TransaksiView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnWithdraw1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWithdraw1ActionPerformed
+        mainFrame.showView(new TransferView(mainFrame, nasabah));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnWithdraw1ActionPerformed
+
     private void btnDepositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositActionPerformed
+        int amount = getAmountValue();
         String defaultAmount = tfAmount.getText();
-        String amountText = defaultAmount.replaceAll("\\,", "");
-        if (!amountText.isBlank()) {
-            repository.deposit(nasabah, Integer.parseInt(amountText));
+        if (amount != 0) {
+            repository.deposit(nasabah, amount);
             updateBalanceUi();
             JOptionPane.showMessageDialog(this, "Berhasil menyimpan Rp" + defaultAmount);
             tfAmount.setText("");
@@ -226,14 +261,43 @@ public class TransaksiView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDepositActionPerformed
 
+    private void btnWithdrawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWithdrawActionPerformed
+        try {
+            int amount = getAmountValue();
+            String defaultAmount = tfAmount.getText();
+            if (amount != 0) {
+                repository.withdraw(nasabah, amount);
+                updateBalanceUi();
+                JOptionPane.showMessageDialog(this, "Berhasil mengambil Rp" + defaultAmount);
+                tfAmount.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnWithdrawActionPerformed
+
+    private void btnCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopyActionPerformed
+        String accountNumber = txtAccountNumber.getText();
+        StringSelection stringSelection = new StringSelection(accountNumber);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+        JOptionPane.showMessageDialog(this, accountNumber + " berhasil disalin");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCopyActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCopy;
     private javax.swing.JButton btnDeposit;
     private javax.swing.JButton btnWithdraw;
+    private javax.swing.JButton btnWithdraw1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField tfAmount;
+    private javax.swing.JLabel txtAccountNumber;
     private javax.swing.JLabel txtBalance;
     private javax.swing.JLabel txtFullName;
     // End of variables declaration//GEN-END:variables

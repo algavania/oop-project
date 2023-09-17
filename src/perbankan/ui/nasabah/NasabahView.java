@@ -40,11 +40,12 @@ public class NasabahView extends javax.swing.JPanel {
      */
     public NasabahView(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        authRepository = new AuthRepository();        
+        authRepository = new AuthRepository();
         repository = new NasabahRepository();
         bank = DatabaseService.getBank();
         tableModel = new NasabahListTableModel(bank.getNasabah());
         initComponents();
+        fillAccountNumberField();
         initCbItems();
         nasabahListTable.setModel(tableModel);
         ListSelectionModel list = nasabahListTable.getSelectionModel();
@@ -57,6 +58,7 @@ public class NasabahView extends javax.swing.JPanel {
                 int selectedRow = nasabahListTable.getSelectedRow();
                 if (selectedRow != -1) {
                     Nasabah data = tableModel.getNasabahAt(selectedRow);
+                    tfAccountNumber.setText(data.getNoRekening());
                     tfFirstName.setText(data.getNamaAwal());
                     tfLastName.setText(data.getNamaAkhir());
                     if (data.getUser() != null) {
@@ -68,6 +70,11 @@ public class NasabahView extends javax.swing.JPanel {
                 setEditingMode();
             }
         });
+    }
+
+    private void fillAccountNumberField() {
+        String accountNumber = UniqueAccountNumberGenerator.generateUniqueValue(10);
+        tfAccountNumber.setText(accountNumber);
     }
 
     private void initCbItems() {
@@ -88,6 +95,7 @@ public class NasabahView extends javax.swing.JPanel {
             isSelectionUserEvent = true;
             nasabahListTable.clearSelection();
             isSelectionUserEvent = false;
+            fillAccountNumberField();
         }
     }
 
@@ -119,6 +127,8 @@ public class NasabahView extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         cbUser = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        tfAccountNumber = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Manajemen Nasabah");
@@ -176,6 +186,11 @@ public class NasabahView extends javax.swing.JPanel {
 
         cbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel5.setText("No Rekening");
+
+        tfAccountNumber.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        tfAccountNumber.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,34 +198,38 @@ public class NasabahView extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(btnBack)))
                         .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(tfFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnNasabahAction, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnDeleteNasabah)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnTransaksi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCancelNasabah, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tfLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
-                            .addComponent(cbUser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(btnBack)
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(21, 21, 21)
+                                    .addComponent(tfAccountNumber))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4))
+                                    .addGap(21, 21, 21)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfFirstName)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(btnNasabahAction, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(btnDeleteNasabah)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(btnTransaksi)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnCancelNasabah, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(tfLastName)
+                                        .addComponent(cbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +238,11 @@ public class NasabahView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39)
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(tfAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -240,15 +263,17 @@ public class NasabahView extends javax.swing.JPanel {
                     .addComponent(btnCancelNasabah))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNasabahActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNasabahActionActionPerformed
         String firstName = tfFirstName.getText();
         String lastName = tfLastName.getText();
+        String accountNumber = tfAccountNumber.getText();
         try {
             User user = cbItemList.get(cbUser.getSelectedIndex());
+            Nasabah nasabah = new Nasabah(accountNumber, firstName, lastName, user);
             if (firstName.trim().isEmpty() || lastName.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Field harus diisi!");
                 return;
@@ -258,9 +283,10 @@ public class NasabahView extends javax.swing.JPanel {
                 repository.editNasabah(index, firstName, lastName, user);
                 tableModel.editNasabah(index, bank.getNasabah(index));
             } else {
-                repository.addNasabah(firstName, lastName, user);
+                repository.addNasabah(nasabah);
                 tableModel.addNasabah(bank.getNasabah(bank.getJumlahNasabah() - 1));
                 clearTextFields();
+                fillAccountNumberField();
             }
             initCbItems();
 
@@ -312,8 +338,10 @@ public class NasabahView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable nasabahListTable;
+    private javax.swing.JTextField tfAccountNumber;
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JTextField tfLastName;
     // End of variables declaration//GEN-END:variables

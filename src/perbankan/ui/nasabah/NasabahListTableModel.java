@@ -18,7 +18,7 @@ import perbankan.models.Nasabah;
 public class NasabahListTableModel extends AbstractTableModel {
 
     private List<Nasabah> nasabahList;
-    private final String[] columnNames = {"No", "Nama Awal", "Nama Akhir", "Saldo"};
+    private final String[] columnNames = {"No Rekening", "Username", "Nama Awal", "Nama Akhir", "Saldo"};
 
     public NasabahListTableModel(List<Nasabah> nasabahList) {
         this.nasabahList = nasabahList;
@@ -48,12 +48,14 @@ public class NasabahListTableModel extends AbstractTableModel {
 
         return switch (columnIndex) {
             case 0 ->
-                rowIndex + 1;
+                data.getNoRekening();
             case 1 ->
-                data.getNamaAwal();
+                data.getUser().getUsername();
             case 2 ->
-                data.getNamaAkhir();
+                data.getNamaAwal();
             case 3 ->
+                data.getNamaAkhir();
+            case 4 ->
                 "Rp" + format.format(data.getTabungan().getSaldo());
             default ->
                 null;

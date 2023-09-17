@@ -12,8 +12,9 @@ import perbankan.models.User;
  * @author MSI
  */
 interface BaseNasabahRepository {
-    public void addNasabah(String namaAwal, String namaAkhir, User user);
+    public void addNasabah(Nasabah nasabah);
     public void editNasabah(int index, String namaAwal, String namaAkhir, User user);
     public void deleteNasabah(int index);
     public Nasabah getNasabahByUsername(String username);
+    public Nasabah getAccountNumber(String accountNumber) throws Exception;
 }

@@ -13,4 +13,5 @@ import perbankan.models.Nasabah;
 interface BaseTransactionRepository {
     public void withdraw(Nasabah nasabah, int amount) throws Exception;
     public void deposit(Nasabah nasabah, int amount);
+    public void transfer(Nasabah sender, Nasabah receiver, int amount) throws Exception;
 }

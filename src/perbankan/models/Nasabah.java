@@ -10,7 +10,7 @@ package perbankan.models;
  * @author MSI
  */
 public class Nasabah {
-
+    private String noRekening;
     private String namaAwal;
     private String namaAkhir;
     private Tabungan tabungan;
@@ -20,6 +20,21 @@ public class Nasabah {
         this.namaAwal = namaAwal;
         this.namaAkhir = namaAkhir;
     }    
+
+    public Nasabah(String noRekening, String namaAwal, String namaAkhir, User user) {
+        this.noRekening = noRekening;
+        this.namaAwal = namaAwal;
+        this.namaAkhir = namaAkhir;
+        this.user = user;
+    }
+
+    public String getNoRekening() {
+        return noRekening;
+    }
+
+    public void setNoRekening(String noRekening) {
+        this.noRekening = noRekening;
+    }
 
     public String getNamaAwal() {
         return namaAwal;

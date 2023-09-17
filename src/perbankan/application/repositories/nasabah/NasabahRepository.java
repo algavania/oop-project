@@ -18,8 +18,8 @@ public class NasabahRepository implements BaseNasabahRepository {
     private final Bank bank = DatabaseService.getBank();
 
     @Override
-    public void addNasabah(String namaAwal, String namaAkhir, User user) {
-        bank.tambahNasabah(namaAwal, namaAkhir, user);
+    public void addNasabah(Nasabah nasabah) {
+        bank.tambahNasabah(nasabah);
     }
 
     @Override
@@ -46,6 +46,17 @@ public class NasabahRepository implements BaseNasabahRepository {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public Nasabah getAccountNumber(String accountNumber) throws Exception {
+        for (int i = 0; i < bank.getJumlahNasabah(); i++) {
+            Nasabah nasabah = bank.getNasabah(i);
+            if (nasabah.getNoRekening().equals(accountNumber)) {
+                return nasabah;
+            }
+        }
+        throw new Exception("Rekening tidak ditemukan!");
     }
 
 }

@@ -27,6 +27,7 @@ public class MainFrame extends javax.swing.JFrame {
         setLayout(new BorderLayout());
         add(view, BorderLayout.CENTER);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

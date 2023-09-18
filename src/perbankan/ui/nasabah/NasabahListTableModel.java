@@ -1,7 +1,6 @@
 package perbankan.ui.nasabah;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;

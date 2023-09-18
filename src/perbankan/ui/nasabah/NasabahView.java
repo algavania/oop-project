@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
+import perbankan.InjectionContainer;
 import perbankan.models.Bank;
 import perbankan.models.Nasabah;
 import perbankan.models.User;
@@ -40,8 +41,8 @@ public class NasabahView extends javax.swing.JPanel {
      */
     public NasabahView(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        authRepository = new AuthRepository();
-        repository = new NasabahRepository();
+        authRepository = InjectionContainer.authRepository;
+        repository = InjectionContainer.nasabahRepository;
         bank = DatabaseService.getBank();
         tableModel = new NasabahListTableModel(bank.getNasabah());
         initComponents();

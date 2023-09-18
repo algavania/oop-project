@@ -8,6 +8,7 @@ import perbankan.application.repositories.auth.AuthRepository;
 import perbankan.application.repositories.nasabah.NasabahRepository;
 import perbankan.application.services.DatabaseService;
 import javax.swing.JOptionPane;
+import perbankan.InjectionContainer;
 import perbankan.models.Nasabah;
 import perbankan.models.User;
 import perbankan.ui.MainFrame;
@@ -32,8 +33,8 @@ public class LoginView extends javax.swing.JPanel {
      */
     public LoginView(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        repository = new AuthRepository();
-        nasabahRepository = new NasabahRepository();
+        repository = InjectionContainer.authRepository;
+        nasabahRepository = InjectionContainer.nasabahRepository;
         initComponents();
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
+import perbankan.InjectionContainer;
 import perbankan.models.User;
 import perbankan.ui.MainFrame;
 import perbankan.ui.dashboard.DashboardView;
@@ -24,7 +25,7 @@ public class UserView extends javax.swing.JPanel {
     private UserListTableModel tableModel;
     private boolean isEdit = false;
     private boolean isSelectionUserEvent = false;
-    private final AuthRepository repository = new AuthRepository();
+    private final AuthRepository repository;
     private final List<User> users;
     private final User currentUser;
     String roles[] = {"User", "Pegawai"};
@@ -37,6 +38,7 @@ public class UserView extends javax.swing.JPanel {
     public UserView(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         users = DatabaseService.getUsers();
+        repository = InjectionContainer.authRepository;
         tableModel = new UserListTableModel(users);
         currentUser = DatabaseService.getCurrentUser();
         initComponents();

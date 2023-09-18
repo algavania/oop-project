@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
+import perbankan.InjectionContainer;
 import perbankan.models.Nasabah;
 import perbankan.models.User;
 import perbankan.ui.MainFrame;
@@ -41,7 +42,7 @@ public class TransaksiView extends javax.swing.JPanel {
         this.mainFrame = mainFrame;
         this.nasabah = nasabah;
         currentUser = DatabaseService.getCurrentUser();
-        repository = new TransactionRepository();
+        repository = InjectionContainer.transactionRepository;
         DatabaseService.getBank();
         initComponents();
         ((AbstractDocument) tfAmount.getDocument()).setDocumentFilter(new NumericDocumentFilter());

@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
+import perbankan.InjectionContainer;
 import perbankan.application.repositories.nasabah.NasabahRepository;
 import perbankan.application.repositories.transaction.TransactionRepository;
 import perbankan.application.services.DatabaseService;
@@ -36,8 +37,8 @@ public class TransferView extends javax.swing.JPanel {
     public TransferView(MainFrame mainFrame, Nasabah nasabah) {
         this.mainFrame = mainFrame;
         sender = nasabah;
-        repository = new TransactionRepository();
-        nasabahRepository = new NasabahRepository();
+        repository = InjectionContainer.transactionRepository;
+        nasabahRepository = InjectionContainer.nasabahRepository;
         DatabaseService.getBank();
         initComponents();
         ((AbstractDocument) tfAmount.getDocument()).setDocumentFilter(new NumericDocumentFilter());

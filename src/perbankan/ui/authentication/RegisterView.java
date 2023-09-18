@@ -6,6 +6,7 @@ package perbankan.ui.authentication;
 
 import perbankan.application.repositories.auth.AuthRepository;
 import javax.swing.JOptionPane;
+import perbankan.InjectionContainer;
 import perbankan.ui.MainFrame;
 
 /**
@@ -24,7 +25,7 @@ public class RegisterView extends javax.swing.JPanel {
      */
     public RegisterView(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        repository = new AuthRepository();
+        repository = InjectionContainer.authRepository;
         initComponents();
     }
 

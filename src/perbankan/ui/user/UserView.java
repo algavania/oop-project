@@ -256,10 +256,10 @@ public class UserView extends javax.swing.JPanel {
             if (isEdit) {
                 int index = listTable.getSelectedRow();
                 repository.updateUser(index, user);
-                tableModel.editUser(index, user);
+                tableModel.fireTableDataChanged();
             } else {
                 repository.register(firstName, lastName, role);
-                tableModel.addUser(user);
+                tableModel.fireTableRowsInserted(0, users.size() - 1);
                 clearTextFields();
             }
         } catch (Exception e) {
@@ -275,7 +275,7 @@ public class UserView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Tidak bisa menghapus akun sendiri!");
         } else {
             repository.deleteUser(index);
-            tableModel.deleteUser(index);
+            tableModel.fireTableDataChanged();
             isEdit = false;
             setEditingMode();
         }

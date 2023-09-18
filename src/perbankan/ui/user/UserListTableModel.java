@@ -56,22 +56,4 @@ public class UserListTableModel extends AbstractTableModel {
     public User getUserAt(int rowIndex) {
         return list.get(rowIndex);
     }
-
-    public void addUser(User data) {
-        if (list == null) {
-            list = new ArrayList();
-        }
-        list.add(data);
-        fireTableRowsInserted(list.size() - 1, list.size() - 1);
-    }
-
-    public void editUser(int index, User data) {
-        list.set(index, data);
-        fireTableRowsUpdated(index, index);
-    }
-
-    public void deleteUser(int index) {
-        list.remove(index);
-        fireTableRowsDeleted(list.size() - 1, list.size() - 1);
-    }
 }

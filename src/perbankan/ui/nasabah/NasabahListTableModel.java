@@ -24,6 +24,10 @@ public class NasabahListTableModel extends AbstractTableModel {
         this.nasabahList = nasabahList;
     }
 
+    public void setNasabahList(List<Nasabah> nasabahList) {
+        this.nasabahList = nasabahList;
+    }
+
     @Override
     public int getRowCount() {
         return nasabahList == null ? 0 : nasabahList.size();
@@ -64,23 +68,5 @@ public class NasabahListTableModel extends AbstractTableModel {
 
     public Nasabah getNasabahAt(int rowIndex) {
         return nasabahList.get(rowIndex);
-    }
-
-    public void addNasabah(Nasabah data) {
-        if (nasabahList == null) {
-            nasabahList = new ArrayList();
-        }
-        nasabahList.add(data);
-        fireTableRowsInserted(nasabahList.size() - 1, nasabahList.size() - 1);
-    }
-
-    public void editNasabah(int index, Nasabah data) {
-        nasabahList.set(index, data);
-        fireTableRowsUpdated(index, index);
-    }
-
-    public void deleteNasabah(int index) {
-        nasabahList.remove(index);
-        fireTableRowsDeleted(nasabahList.size() - 1, nasabahList.size() - 1);
     }
 }

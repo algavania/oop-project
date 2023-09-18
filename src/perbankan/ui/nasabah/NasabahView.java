@@ -281,10 +281,13 @@ public class NasabahView extends javax.swing.JPanel {
             if (isEdit) {
                 int index = nasabahListTable.getSelectedRow();
                 repository.editNasabah(index, firstName, lastName, user);
-                tableModel.editNasabah(index, bank.getNasabah(index));
+                tableModel.fireTableDataChanged();
             } else {
                 repository.addNasabah(nasabah);
-                tableModel.addNasabah(bank.getNasabah(bank.getJumlahNasabah() - 1));
+                if (tableModel.getRowCount() == 0) {
+                    tableModel.setNasabahList(bank.getNasabah());
+                }
+                tableModel.fireTableRowsInserted(0, bank.getJumlahNasabah() - 1);
                 clearTextFields();
                 fillAccountNumberField();
             }
@@ -299,7 +302,7 @@ public class NasabahView extends javax.swing.JPanel {
     private void btnDeleteNasabahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteNasabahActionPerformed
         int index = nasabahListTable.getSelectedRow();
         bank.deleteNasabah(index);
-        tableModel.deleteNasabah(index);
+        tableModel.fireTableDataChanged();
         isEdit = false;
         setEditingMode();
         // TODO add your handling code here:

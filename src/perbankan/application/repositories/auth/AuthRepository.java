@@ -8,6 +8,7 @@ import perbankan.application.repositories.nasabah.NasabahRepository;
 import perbankan.application.services.DatabaseService;
 import java.util.ArrayList;
 import java.util.List;
+import perbankan.InjectionContainer;
 import perbankan.models.User;
 
 /**
@@ -62,7 +63,7 @@ public class AuthRepository implements BaseAuthRepository {
 
     @Override
     public List<User> getAllUsers() {
-        NasabahRepository repository = new NasabahRepository();
+        NasabahRepository repository = InjectionContainer.nasabahRepository;
         List<User> allUsers = new ArrayList();
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
